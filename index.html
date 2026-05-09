@@ -21,11 +21,20 @@
 
     <script>
       function addTask(){
+        
         let task = document.getElementById("taskInput").value;
+
+        if (task === ""){return;}
         let li = document.createElement("li");
         li.innerText = task;
-        li.className = "bg-gray-100 p-2 rounded-lg mb-2";
+        li.className = "bg-gray-100 p-2 rounded-lg mb-2 flex justify-between items-center";
+        let deleteButton = document.createElement("button");
+        deleteButton.innerText = "Delete";
+        deleteButton.className = "bg-red-500 text-white px-2 py-1 rounded";
+        deleteButton.onclick=function(){li.remove();};
+        li.appendChild(deleteButton);
         document.getElementById("taskList").appendChild(li);
+        document.getElementById("taskInput").value="";
       }
     </script>
     
