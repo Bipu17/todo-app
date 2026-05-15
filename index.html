@@ -8,14 +8,15 @@
   <body class="bg-gray-100 min-h-screen flex justify-center items-center p-6">
     <main class="bg-white p-6 rounded-xl shadow-md w-full max-w-md text-center">
       <h1 class="text-2xl font-bold mb-2">To-do App</h1>
+      <p id="taskCount" class="text-gray-600 mb-4">
+        Tasks: 0
+      </p>
 
     <div class="flex gap-2 mb-4">
       <input id="taskInput" type="text" placeholder="Enter a task" class="border p-2 rounded-lg w-full">
-      <button onclick="addTask()" class="bg-blue-500 text-white px-4 py-2 rounded-lg"> Add </button>
+      <button id="addButton" class="bg-blue-500 text-white px-4 py-2 rounded-lg"> Add </button>
     </div>
-    <ul id="taskList" class="text-left">
-      <li class="bg-gray-100 p-2 rounded-lg mb-2">Simple task</li>
-      
+    <ul id="taskList" class="text-left">  
     </ul>
     </main>
 
@@ -28,15 +29,32 @@
         let li = document.createElement("li");
         li.innerText = task;
         li.className = "bg-gray-100 p-2 rounded-lg mb-2 flex justify-between items-center";
+        li.onclick = function(){
+          li.classList.toggle("line-through");
+          li.classList.toggle("opacity-50");
+        }
+      
         let deleteButton = document.createElement("button");
         deleteButton.innerText = "Delete";
         deleteButton.className = "bg-red-500 text-white px-2 py-1 rounded";
-        deleteButton.onclick=function(){li.remove();};
+        deleteButton.onclick=function(){
+          li.remove();
+          updateTaskCount();};
         li.appendChild(deleteButton);
         document.getElementById("taskList").appendChild(li);
+        updateTaskCount();
         document.getElementById("taskInput").value="";
       }
+       document.getElementById("addButton").addEventListener("click",addTask);
+        document.getElementById("taskInput").addEventListener("keypress",function(event){ if (event.key === "Enter")
+        {addTask();}
+        });
+      function updateTaskCount(){
+        let totalTasks = document.getElementById("taskList").children.length;
+        document.getElementById("taskCount").innerText = "Tasks: " + totalTasks;
+      }
     </script>
-    
+
+       
   </body>
 </html>
