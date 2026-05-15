@@ -21,11 +21,14 @@
     </main>
 
     <script>
+      let tasks = [];
       function addTask(){
         
         let task = document.getElementById("taskInput").value;
 
         if (task === ""){return;}
+        tasks.push(task);
+        localStorage.setItem("tasks", JSON.stringify(tasks));
         let li = document.createElement("li");
         li.innerText = task;
         li.className = "bg-gray-100 p-2 rounded-lg mb-2 flex justify-between items-center";
@@ -52,6 +55,20 @@
       function updateTaskCount(){
         let totalTasks = document.getElementById("taskList").children.length;
         document.getElementById("taskCount").innerText = "Tasks: " + totalTasks;
+      }
+      window.onload = function() {
+        
+        let savedTasks = localStorage.getItem("tasks");
+        if (savedTasks){
+          tasks = JSON.parse(savedTasks);
+        }
+        tasks.forEach(function(task){
+          let li = document.createElement("li");
+          li.innerText = task;
+          li.className = "bg-gray-100 p-2 rounded-lg mb-2";
+          document.getElementById("taskList").appendChild(li);
+      });
+        updateTaskCount();
       }
     </script>
 
